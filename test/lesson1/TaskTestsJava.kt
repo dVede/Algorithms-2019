@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Tag
 import kotlin.test.Test
 
 class TaskTestsJava : AbstractTaskTests() {
-
     @Test
     @Tag("Easy")
     fun testSortTimes() {

@@ -2,7 +2,14 @@ package lesson1;
 
 import kotlin.NotImplementedError;
 
-@SuppressWarnings("unused")
+import java.io.*;
+import java.nio.file.Paths;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static java.nio.file.Files.readAllLines;
+import static java.nio.file.Files.write;
+
 public class JavaTasks {
     /**
      * Сортировка времён
@@ -34,7 +41,7 @@ public class JavaTasks {
      *
      * В случае обнаружения неверного формата файла бросить любое исключение.
      */
-    static public void sortTimes(String inputName, String outputName) {
+    static public  void sortTimes(String inputName, String outputName) {
         throw new NotImplementedError();
     }
 
@@ -97,9 +104,14 @@ public class JavaTasks {
      * 24.7
      * 99.5
      * 121.3
+     * R = O(Nlog2N)
+     * T = O(n)
      */
-    static public void sortTemperatures(String inputName, String outputName) {
-        throw new NotImplementedError();
+    static public void sortTemperatures(String inputName, String outputName) throws IOException {
+        List<Double> input = readAllLines(Paths.get(inputName)).stream()
+                .map(Double::parseDouble).sorted().collect(Collectors.toList());
+        write(Paths.get(outputName), Collections.singletonList(input.stream()
+                .map(String::valueOf).collect(Collectors.joining("\n"))));
     }
 
     /**
@@ -130,9 +142,26 @@ public class JavaTasks {
      * 2
      * 2
      * 2
+     *
+     * Трудоёмкость O(n)
+     * Ресурсоёмкость O(n)
      */
-    static public void sortSequence(String inputName, String outputName) {
-        throw new NotImplementedError();
+    static public void sortSequence(String inputName, String outputName) throws IOException {
+        Map<String, Integer> numbers = new HashMap<>();
+        int maxCount = 0;
+        String maxNumber = "";
+        List<String> input = readAllLines(Paths.get(inputName));
+        input.forEach(i -> numbers.merge(i, 1, (a, b) -> a + b));
+        for (Map.Entry<String, Integer> compareNumbers : numbers.entrySet())
+            if (maxCount < compareNumbers.getValue()) {
+                maxCount = compareNumbers.getValue();
+                if (compareNumbers.getValue() < Integer.MAX_VALUE) maxNumber = compareNumbers.getKey();
+            }
+        List<String> output;
+        String finalMaxNumber = maxNumber;
+        output = input.stream().filter(i -> !finalMaxNumber.equals(i)).collect(Collectors.toList());
+        for (int i = 0; i < maxCount; i++) output.add(maxNumber);
+        write(Paths.get(outputName), output);
     }
 
     /**
@@ -148,8 +177,23 @@ public class JavaTasks {
      * second = [null null null null null 1 3 9 13 18 23]
      *
      * Результат: second = [1 3 4 9 9 13 15 20 23 28]
+     *
+     * Трудоемкость: T = O(n), n  = second.length
+     * Ресурсоемкость: R = O(1)
+     *
      */
     static <T extends Comparable<T>> void mergeArrays(T[] first, T[] second) {
-        throw new NotImplementedError();
+        int firstPointer = 0;
+        int firstLength = first.length;
+        int secondLength = second.length;
+        for (int i = 0; i < secondLength; ++i) {
+            if (firstPointer == first.length) continue;
+            if (firstLength == secondLength) {
+                second[i] = first[firstPointer++];
+                continue;
+            }
+            second[i] = first[firstPointer].compareTo(second[firstLength]) < 0 ? first[firstPointer++] : second[firstLength++];
+        }
+        Arrays.stream(second).forEach(System.out::println);
     }
 }

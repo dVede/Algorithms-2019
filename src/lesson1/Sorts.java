@@ -141,4 +141,37 @@ public class Sorts {
         }
         return out;
     }
+    //for double
+    private static int partition(double[] elements, int min, int max) {
+        double x = elements[min + random.nextInt(max - min + 1)];
+        int left = min, right = max;
+        while (left <= right) {
+            while (elements[left] < x) {
+                left++;
+            }
+            while (elements[right] > x) {
+                right--;
+            }
+            if (left <= right) {
+                double temp = elements[left];
+                elements[left] = elements[right];
+                elements[right] = temp;
+                left++;
+                right--;
+            }
+        }
+        return right;
+    }
+
+    private static void quickSort(double[] elements, int min, int max) {
+        if (min < max) {
+            int border = partition(elements, min, max);
+            quickSort(elements, min, border);
+            quickSort(elements, border + 1, max);
+        }
+    }
+
+    public static void quickSort(double[] elements) {
+        quickSort(elements, 0, elements.length - 1);
+    }
 }
