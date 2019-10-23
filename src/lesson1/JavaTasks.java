@@ -142,7 +142,6 @@ public class JavaTasks {
      * 2
      * 2
      * 2
-     *
      * Трудоёмкость O(n)
      * Ресурсоёмкость O(n)
      */
@@ -150,13 +149,18 @@ public class JavaTasks {
         Map<String, Integer> numbers = new HashMap<>();
         int maxCount = 0;
         String maxNumber = "";
+        int minNumber = Integer.MAX_VALUE;
         List<String> input = readAllLines(Paths.get(inputName));
         input.forEach(i -> numbers.merge(i, 1, (a, b) -> a + b));
-        for (Map.Entry<String, Integer> compareNumbers : numbers.entrySet())
+        for (Map.Entry<String, Integer> compareNumbers : numbers.entrySet()){
             if (maxCount < compareNumbers.getValue()) {
                 maxCount = compareNumbers.getValue();
-                if (compareNumbers.getValue() < Integer.MAX_VALUE) maxNumber = compareNumbers.getKey();
-            }
+                maxNumber = compareNumbers.getKey();
+            } else if (maxCount == compareNumbers.getValue())
+                if (Integer.parseInt(maxNumber) > Integer.parseInt(compareNumbers.getKey())) {
+                    maxNumber = compareNumbers.getKey();
+                }
+        }
         List<String> output;
         String finalMaxNumber = maxNumber;
         output = input.stream().filter(i -> !finalMaxNumber.equals(i)).collect(Collectors.toList());
