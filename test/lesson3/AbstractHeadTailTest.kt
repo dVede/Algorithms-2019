@@ -22,6 +22,9 @@ abstract class AbstractHeadTailTest {
         tree.add(4)
         tree.add(3)
         tree.add(6)
+        tree.add(-1)
+        tree.add(15)
+        tree.add(36)
 
         this.randomTree = create()
         val random = Random()
@@ -36,6 +39,7 @@ abstract class AbstractHeadTailTest {
 
     protected fun doHeadSetTest() {
         var set: SortedSet<Int> = tree.headSet(5)
+        assertEquals(true, set.contains(-1))
         assertEquals(true, set.contains(1))
         assertEquals(true, set.contains(2))
         assertEquals(true, set.contains(3))
@@ -51,6 +55,9 @@ abstract class AbstractHeadTailTest {
         set = tree.headSet(127)
         for (i in 1..10)
             assertEquals(true, set.contains(i))
+        assertEquals(true, set.contains(15))
+        assertEquals(true, set.contains(36))
+        assertEquals(true, set.contains(-1))
 
     }
 
@@ -66,11 +73,15 @@ abstract class AbstractHeadTailTest {
         assertEquals(true, set.contains(8))
         assertEquals(true, set.contains(9))
         assertEquals(true, set.contains(10))
+        assertEquals(true, set.contains(15))
+        assertEquals(true, set.contains(36))
 
         set = tree.tailSet(-128)
         for (i in 1..10)
             assertEquals(true, set.contains(i))
-
+        assertEquals(true, set.contains(15))
+        assertEquals(true, set.contains(36))
+        assertEquals(true, set.contains(-1))
     }
 
     protected fun doHeadSetRelationTest() {
