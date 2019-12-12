@@ -242,6 +242,34 @@ abstract class AbstractGraphTests {
             setOf(cross["A"], cross["B"], cross["C"], cross["D"]),
             cross.largestIndependentVertexSet()
         )
+        val graph4 = GraphBuilder().apply {
+            val a = addVertex("A")
+            val b = addVertex("B")
+            val c = addVertex("C")
+            val d = addVertex("D")
+            val e = addVertex("E")
+            val f = addVertex("F")
+            val g = addVertex("G")
+            val h = addVertex("H")
+            val i = addVertex("I")
+            val j = addVertex("J")
+            val k = addVertex("K")
+            addConnection(a, b)
+            addConnection(a, c)
+            addConnection(a, d)
+            addConnection(a, e)
+            addConnection(e, f)
+            addConnection(d, f)
+            addConnection(c, g)
+            addConnection(b, i)
+            addConnection(i, j)
+            addConnection(i, k)
+            addConnection(i, h)
+        }.build()
+        assertEquals(
+            setOf(graph4["A"], graph4["F"], graph4["G"], graph4["H"], graph4["J"], graph4["K"]),
+            graph4.largestIndependentVertexSet()
+        )
     }
 
     fun longestSimplePath(longestSimplePath: Graph.() -> Path) {
